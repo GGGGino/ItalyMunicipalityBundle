@@ -3,6 +3,7 @@
 namespace GGGGino\ItalyMunicipalityBundle\Service;
 
 use GGGGino\ItalyMunicipalityBundle\Entity\CsvLine;
+use GGGGino\ItalyMunicipalityBundle\Exception\CsvLineNotValidException;
 use Symfony\Component\Cache\Adapter\AdapterInterface;
 
 class IstatPopulator
@@ -39,7 +40,11 @@ class IstatPopulator
                     continue;
                 }
 
-                $this->csvLines[] = CsvLine::createCsvLine($data);
+                try{
+                    $this->csvLines[] = CsvLine::createCsvLine($data);
+                }catch(CsvLineNotValidException $e) {
+                    continue;
+                }
             }
             fclose($handle);
         }
@@ -54,80 +59,5 @@ class IstatPopulator
             $this->download();
 
         return $this->csvLines;
-    }
-
-    public function getMunicipality()
-    {
-        if( $this->cache->hasItem('ggggino.italy_municipality.municipality') )
-            return $this->cache->getItem('ggggino.italy_municipality.municipality')->get();
-
-        $csvLines = $this->getLines();
-        /** @var CsvLine[] $regions */
-        $regions = array();
-
-        /** @var CsvLine $line */
-        foreach($csvLines as $line) {
-            if( !array_key_exists($line->codiceComuneNum, $regions) ){
-                $regions[$line->codiceComuneNum] = $line;
-            }
-        }
-
-        $regionsInCache = $this->cache->getItem('ggggino.italy_municipality.municipality');
-        $regionsInCache->set($regions);
-        $this->cache->save($regionsInCache);
-
-        return $regions;
-    }
-
-    /**
-     * @return CsvLine[]
-     */
-    public function getProvince()
-    {
-        if( $this->cache->hasItem('ggggino.italy_municipality.province') )
-            return $this->cache->getItem('ggggino.italy_municipality.province')->get();
-
-        $csvLines = $this->getLines();
-        /** @var CsvLine[] $regions */
-        $regions = array();
-
-        /** @var CsvLine $line */
-        foreach($csvLines as $line) {
-            if( !array_key_exists($line->codiceProvincia, $regions) ){
-                $regions[$line->codiceProvincia] = $line;
-            }
-        }
-
-        $regionsInCache = $this->cache->getItem('ggggino.italy_municipality.province');
-        $regionsInCache->set($regions);
-        $this->cache->save($regionsInCache);
-
-        return $regions;
-    }
-
-    /**
-     * @return CsvLine[]
-     */
-    public function getRegions()
-    {
-        if( $this->cache->hasItem('ggggino.italy_municipality.city') )
-            return $this->cache->getItem('ggggino.italy_municipality.city')->get();
-
-        $csvLines = $this->getLines();
-        /** @var CsvLine[] $regions */
-        $regions = array();
-
-        /** @var CsvLine $line */
-        foreach($csvLines as $line) {
-            if( !array_key_exists($line->codiceRegione, $regions) ){
-                $regions[$line->codiceRegione] = $line;
-            }
-        }
-
-        $regionsInCache = $this->cache->getItem('ggggino.italy_municipality.city');
-        $regionsInCache->set($regions);
-        $this->cache->save($regionsInCache);
-
-        return $regions;
     }
 }
