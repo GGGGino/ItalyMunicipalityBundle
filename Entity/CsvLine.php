@@ -2,6 +2,8 @@
 
 namespace GGGGino\ItalyMunicipalityBundle\Entity;
 
+use GGGGino\ItalyMunicipalityBundle\Exception\CsvLineNotValidException;
+
 class CsvLine
 {
     /** @var string Codice Regione */
@@ -32,10 +34,14 @@ class CsvLine
     /**
      * @param array $line
      * @return CsvLine
+     * @throws CsvLineNotValidException
      */
     public static function createCsvLine($line)
     {
         $newSelf = new self();
+
+        if( empty($line[0]) && empty($line[1]) )
+            throw new CsvLineNotValidException($line, "Csv line not valid");
 
         $newSelf->codiceRegione = $line[0];
         $newSelf->codiceUnitaTerritoriale = $line[1];
