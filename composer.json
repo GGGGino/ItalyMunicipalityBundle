@@ -1,0 +1,45 @@
+{
+  "name": "ggggino/italy-municipality",
+  "description": "This bundle contains the list of the regions, province of Italy",
+  "type": "symfony-bundle",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "David Ginanni",
+      "email": "david.ginanni@gmail.com"
+    }
+  ],
+  "keywords": ["italy", "region", "province", "symfony", "symfony3", "symfony4"],
+  "homepage": "https://github.com/GGGGino",
+  "require": {
+    "php": "^5.6|^7.0",
+    "symfony/http-kernel": "^3.3|^4.0",
+    "php-http/client-implementation": "^1.0"
+  },
+  "require-dev": {
+    "symfony/templating": "^3.3|^4.0",
+    "symfony/twig-bundle": "^3.3|^4.0",
+    "symfony/asset": "^3.3|^4.0",
+    "symfony/console": "^3.3|^4.0",
+    "symfony/config": "^3.3|^4.0",
+    "symfony/validator": "^3.3|^4.0",
+    "symfony/property-access": "^3.3|^4.0",
+    "symfony/form": "^3.3|^4.0",
+    "symfony/dom-crawler": "^3.3|^4.0",
+    "symfony/browser-kit": "^3.3|^4.0",
+    "symfony/cache": "^3.3|^4.0",
+    "symfony/phpunit-bridge": "^3.3|^4.0",
+    "symfony/stopwatch": "^3.3|^4.0",
+    "sensio/framework-extra-bundle": "^3.0",
+    "doctrine/annotations": "^1.2",
+    "doctrine/common": "^2.4"
+  },
+  "autoload": {
+    "psr-4": {
+      "GGGGino\\ItalyMunicipalityBundle\\": ""
+    },
+    "exclude-from-classmap": [
+      "/Tests/"
+    ]
+  }
+}
