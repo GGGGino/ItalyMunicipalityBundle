@@ -13,6 +13,7 @@
   "homepage": "https://github.com/GGGGino",
   "require": {
     "php": "^5.6|^7.0",
+    "ext-imagick": "*",
     "symfony/http-kernel": "^3.3|^4.0",
     "php-http/client-implementation": "^1.0"
   },

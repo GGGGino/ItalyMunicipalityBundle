@@ -7,7 +7,6 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 class GGGGinoItalyMunicipalityBundle extends Bundle
 {
-
     /**
      * @inheritdoc
      */

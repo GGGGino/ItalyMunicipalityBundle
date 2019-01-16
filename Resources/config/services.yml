@@ -9,5 +9,5 @@ services:
         # if you need to do this, you can override this setting on individual services
         public: true
 
-    GGGGino\ItalyRPCBundle\Service\:
+    GGGGino\ItalyMunicipalityBundle\Service\:
         resource: '../../Service/*'

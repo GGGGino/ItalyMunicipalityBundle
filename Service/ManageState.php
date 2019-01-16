@@ -6,8 +6,8 @@ use Psr\Http\Client\ClientInterface;
 
 class ManageState
 {
-    public function __construct(ClientInterface $client)
+    /*public function __construct(ClientInterface $client)
     {
 
-    }
+    }*/
 }
