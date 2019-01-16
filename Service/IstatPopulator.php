@@ -51,12 +51,22 @@ class IstatPopulator
     }
 
     /**
+     * Take all the lines of the parsed CSV and put them in cache for future usage
+     *
      * @return CsvLine[]
      */
     public function getLines()
     {
-        if( !$this->csvLines )
-            $this->download();
+        if( $this->cache->hasItem('ggggino.italy_municipality.all') ){
+            $this->csvLines = $this->cache->getItem('ggggino.italy_municipality.all')->get();
+            return $this->csvLines;
+        }
+
+        $this->download();
+
+        $linesInCache = $this->cache->getItem('ggggino.italy_municipality.all');
+        $linesInCache->set($this->csvLines);
+        $this->cache->save($linesInCache);
 
         return $this->csvLines;
     }
