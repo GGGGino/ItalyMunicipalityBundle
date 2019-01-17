@@ -11,3 +11,7 @@ services:
 
     GGGGino\ItalyMunicipalityBundle\Service\:
         resource: '../../Service/*'
+
+    GGGGino\ItalyMunicipalityBundle\Form\:
+        resource: '../../Form/*'
+        tags: ['form.type']
