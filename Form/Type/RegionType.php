@@ -7,6 +7,9 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class RegionType extends AbstractLocalityType
 {
+    /**
+     * @inheritdoc
+     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $choices = $this->parseRegions();

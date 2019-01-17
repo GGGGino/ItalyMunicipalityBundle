@@ -30,7 +30,7 @@ class IstatPopulator
      */
     public function download()
     {
-        // @todo: temporary stora file locally, after download from CDN
+        // @todo: temporary store file locally, after download from CDN
 
         $first = true;
         if (($handle = fopen(__DIR__ . "/../comuni.csv", "r")) !== FALSE) {

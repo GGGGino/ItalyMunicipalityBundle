@@ -7,6 +7,9 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class MunicipalityType extends AbstractLocalityType
 {
+    /**
+     * @inheritdoc
+     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $choices = $this->parseMunicipality();

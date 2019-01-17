@@ -7,23 +7,21 @@ use Symfony\Component\Cache\Adapter\AdapterInterface;
 
 class IstatRetrivier
 {
-    const ISTAT_COMUNI_ = "https://www.istat.it/storage/codici-unita-amministrative/Elenco-comuni-italiani.csv";
-
     /**
      * @var AdapterInterface
      */
     private $cache;
 
     /**
-     * @var CsvLine[]
-     */
-    private $csvLines;
-
-    /**
      * @var IstatPopulator
      */
     private $populator;
 
+    /**
+     * IstatRetrivier constructor.
+     * @param AdapterInterface $cache
+     * @param IstatPopulator $populator
+     */
     public function __construct(AdapterInterface $cache, IstatPopulator $populator)
     {
         $this->cache = $cache;
@@ -37,7 +35,7 @@ class IstatRetrivier
      * @param string $cacheString name of the cache if not present not use the cache
      * @return \GGGGino\ItalyMunicipalityBundle\Entity\CsvLine[]|mixed
      */
-    public function getByCallback($callback, $cacheString = null)
+    public function getBy($callback, $cacheString = null)
     {
         if( $cacheString && $this->cache->hasItem($cacheString) )
             return $this->cache->getItem($cacheString)->get();
@@ -57,9 +55,12 @@ class IstatRetrivier
         return $resultLines;
     }
 
+    /**
+     * @return CsvLine[]
+     */
     public function getMunicipalities()
     {
-        return $this->getByCallback(function($csvLines) {
+        return $this->getBy(function($csvLines) {
             /** @var CsvLine[] $regions */
             $regions = array();
 
@@ -79,7 +80,7 @@ class IstatRetrivier
      */
     public function getProvinces()
     {
-        return $this->getByCallback(function($csvLines) {
+        return $this->getBy(function($csvLines) {
             /** @var CsvLine[] $regions */
             $regions = array();
 
@@ -99,7 +100,7 @@ class IstatRetrivier
      */
     public function getRegions()
     {
-        return $this->getByCallback(function($csvLines) {
+        return $this->getBy(function($csvLines) {
             /** @var CsvLine[] $regions */
             $regions = array();
 
