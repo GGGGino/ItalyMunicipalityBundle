@@ -57,7 +57,7 @@ class IstatRetrivier
         return $resultLines;
     }
 
-    public function getMunicipality()
+    public function getMunicipalities()
     {
         return $this->getByCallback(function($csvLines) {
             /** @var CsvLine[] $regions */
@@ -77,7 +77,7 @@ class IstatRetrivier
     /**
      * @return CsvLine[]
      */
-    public function getProvince()
+    public function getProvinces()
     {
         return $this->getByCallback(function($csvLines) {
             /** @var CsvLine[] $regions */
