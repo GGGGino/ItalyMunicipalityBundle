@@ -8,7 +8,9 @@
 
 | Name          | Description  |
 | ------------- |:------------:|
-| ProvinceType::class | Command to download the list from ISTAT |
+| MunicipalityType::class | Form for displaying a list of all the *Municipalities* in Italy |
+| ProvinceType::class | Form for displaying a list of all the *Provinces* in Italy |
+| RegionType::class | Form for displaying a list of all the *Regions* in Italy |
 
 # Commands
 
