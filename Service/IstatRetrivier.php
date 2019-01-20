@@ -5,8 +5,20 @@ namespace GGGGino\ItalyMunicipalityBundle\Service;
 use GGGGino\ItalyMunicipalityBundle\Entity\CsvLine;
 use Symfony\Component\Cache\Adapter\AdapterInterface;
 
+/**
+ * Class used to retrieve the specified type regions/provinces/municipalities
+ *
+ * Class IstatRetrivier
+ * @package GGGGino\ItalyMunicipalityBundle\Service
+ */
 class IstatRetrivier
 {
+    const CACHE_REGIONS_KEY = "ggggino.italy_municipality.regions";
+
+    const CACHE_PROVINCES_KEY = "ggggino.italy_municipality.province";
+
+    const CACHE_MUNICIPALITIES_KEY = "ggggino.italy_municipality.municipality";
+
     /**
      * @var AdapterInterface
      */
@@ -72,7 +84,7 @@ class IstatRetrivier
             }
 
             return $regions;
-        }, 'ggggino.italy_municipality.municipality');
+        }, self::CACHE_MUNICIPALITIES_KEY);
     }
 
     /**
@@ -92,7 +104,7 @@ class IstatRetrivier
             }
 
             return $regions;
-        }, 'ggggino.italy_municipality.province');
+        }, self::CACHE_PROVINCES_KEY);
     }
 
     /**
@@ -112,6 +124,6 @@ class IstatRetrivier
             }
 
             return $regions;
-        }, 'ggggino.italy_municipality.regions');
+        }, self::CACHE_REGIONS_KEY);
     }
 }

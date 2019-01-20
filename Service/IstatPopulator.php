@@ -6,9 +6,17 @@ use GGGGino\ItalyMunicipalityBundle\Entity\CsvLine;
 use GGGGino\ItalyMunicipalityBundle\Exception\CsvLineNotValidException;
 use Symfony\Component\Cache\Adapter\AdapterInterface;
 
+/**
+ * Class used to retrieve from cache/CDN all the municipalities
+ *
+ * Class IstatPopulator
+ * @package GGGGino\ItalyMunicipalityBundle\Service
+ */
 class IstatPopulator
 {
     const ISTAT_COMUNI_ = "https://www.istat.it/storage/codici-unita-amministrative/Elenco-comuni-italiani.csv";
+
+    const CACHE_LIST_KEY = "ggggino.italy_municipality.all";
 
     /**
      * @var AdapterInterface
@@ -57,14 +65,14 @@ class IstatPopulator
      */
     public function getLines()
     {
-        if( $this->cache->hasItem('ggggino.italy_municipality.all') ){
-            $this->csvLines = $this->cache->getItem('ggggino.italy_municipality.all')->get();
+        if( $this->cache->hasItem(self::CACHE_LIST_KEY) ){
+            $this->csvLines = $this->cache->getItem(self::CACHE_LIST_KEY)->get();
             return $this->csvLines;
         }
 
         $this->download();
 
-        $linesInCache = $this->cache->getItem('ggggino.italy_municipality.all');
+        $linesInCache = $this->cache->getItem(self::CACHE_LIST_KEY);
         $linesInCache->set($this->csvLines);
         $this->cache->save($linesInCache);
 
