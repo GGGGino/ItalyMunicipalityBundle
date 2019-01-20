@@ -9,7 +9,7 @@
       "email": "david.ginanni@gmail.com"
     }
   ],
-  "keywords": ["italy", "region", "province", "symfony", "symfony3", "symfony4"],
+  "keywords": ["italy", "region", "province", "symfony", "italia", "regioni", "province"],
   "homepage": "https://github.com/GGGGino",
   "require": {
     "php": "^5.6|^7.0",
