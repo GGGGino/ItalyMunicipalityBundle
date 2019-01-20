@@ -2,9 +2,6 @@ language: php
 
 sudo: false
 
-services:
-  - mysql
-
 cache:
   directories:
     - $HOME/.composer/cache
@@ -28,4 +25,4 @@ install:
   - composer install --optimize-autoloader --prefer-source
 
 script:
-  - vendor/bin/simple-phpunit --verbose
+  - vendor/bin/phpunit --verbose
