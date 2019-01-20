@@ -3,6 +3,7 @@
 namespace GGGGino\ItalyMunicipalityBundle\Tests\Service;
 
 use GGGGino\ItalyMunicipalityBundle\Service\IstatPopulator;
+use GuzzleHttp\Client;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Cache\Adapter\SimpleCacheAdapter;
 use Symfony\Component\Cache\Simple\FilesystemCache;
@@ -23,7 +24,10 @@ class IstatPopulatorTest extends TestCase
     {
         $fileSystemCache = new FilesystemCache();
         $this->cacheAdapter = new SimpleCacheAdapter($fileSystemCache);
-        $this->populator = new IstatPopulator($this->cacheAdapter);
+
+        $clientInterface = new \Http\Adapter\Guzzle6\Client();
+
+        $this->populator = new IstatPopulator($this->cacheAdapter, $clientInterface);
 
         $this->cacheAdapter->delete('ggggino.italy_municipality.all');
     }

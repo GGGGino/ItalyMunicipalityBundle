@@ -4,6 +4,10 @@ namespace GGGGino\ItalyMunicipalityBundle\Service;
 
 use GGGGino\ItalyMunicipalityBundle\Entity\CsvLine;
 use GGGGino\ItalyMunicipalityBundle\Exception\CsvLineNotValidException;
+use GGGGino\ItalyMunicipalityBundle\Exception\CsvLinesUnavailableException;
+use GuzzleHttp\Psr7\Request;
+use Psr\Http\Client\ClientInterface;
+use Psr\Http\Message\ResponseInterface;
 use Symfony\Component\Cache\Adapter\AdapterInterface;
 
 /**
@@ -28,9 +32,15 @@ class IstatPopulator
      */
     private $csvLines;
 
-    public function __construct(AdapterInterface $cache)
+    /**
+     * @var ClientInterface
+     */
+    private $client;
+
+    public function __construct(AdapterInterface $cache, ClientInterface $client)
     {
         $this->cache = $cache;
+        $this->client = $client;
     }
 
     /**
@@ -38,11 +48,18 @@ class IstatPopulator
      */
     public function download()
     {
-        // @todo: temporary store file locally, after download from CDN
+        $request = new Request("GET", self::ISTAT_COMUNI_);
+        /** @var ResponseInterface $response */
+        $response = $this->client->sendRequest($request);
 
         $first = true;
-        if (($handle = fopen(__DIR__ . "/../comuni.csv", "r")) !== FALSE) {
-            while (($data = fgetcsv($handle, 1000, ";")) !== FALSE) {
+        if( $response->getStatusCode() == 200 ) {
+            /** @var string $responseContent */
+            $responseContent = $response->getBody()->getContents();
+            $arrayLines = str_getcsv($responseContent, "\r\n"); //parse the rows
+            foreach($arrayLines as &$data){
+                $data = str_getcsv($data, ";");
+
                 if( $first ){
                     $first = false;
                     continue;
@@ -54,7 +71,8 @@ class IstatPopulator
                     continue;
                 }
             }
-            fclose($handle);
+        }else{
+            throw new CsvLinesUnavailableException();
         }
     }
 

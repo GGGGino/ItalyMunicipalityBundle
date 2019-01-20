@@ -24,7 +24,10 @@ class IstatRetrivierTest extends TestCase
     {
         $fileSystemCache = new FilesystemCache();
         $this->cacheAdapter = new SimpleCacheAdapter($fileSystemCache);
-        $populator = new IstatPopulator($this->cacheAdapter);
+
+        $clientInterface = new \Http\Adapter\Guzzle6\Client();
+
+        $populator = new IstatPopulator($this->cacheAdapter, $clientInterface);
         $this->istatRetrivier = new IstatRetrivier($this->cacheAdapter, $populator);
     }
 
