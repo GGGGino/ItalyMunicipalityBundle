@@ -1,5 +1,7 @@
 # GGGGinoItalyMunicipalityBundle
 
+[![Build Status](https://travis-ci.com/GGGGino/ItalyMunicipalityBundle.svg?branch=master)](https://travis-ci.com/GGGGino/ItalyMunicipalityBundle)
+
 > A list of the updated regions, provinces of Italy
 
 # Get started
