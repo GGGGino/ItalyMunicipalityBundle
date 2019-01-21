@@ -2,17 +2,58 @@
 
 [![Build Status](https://travis-ci.com/GGGGino/ItalyMunicipalityBundle.svg?branch=master)](https://travis-ci.com/GGGGino/ItalyMunicipalityBundle)
 
-> A list of the updated regions, provinces of Italy
+> A list of the updated regions, provinces of Italy taken from ISTAT with some useful utility.
+
+> The content of the ISTAT file will be saved in cache
 
 # Get started
 
-# API
+Get the service
 
 ```php
-$this->get(IstatRetrivier::class);
+/** @var IstatRetrivier $retrivier */
+$retrivier = $this->get(IstatRetrivier::class);
 ```
 
-Useful if you want to manage/get Municipalities
+Get all the municipalities
+
+```php
+/** @var CsvLine[] $municipalities */
+$municipalities = $retrivier->getMunicipalities();
+```
+
+Get all the provinces
+
+```php
+/** @var CsvLine[] $provinces */
+$provinces = $retrivier->getProvinces();
+```
+
+Get all the regions
+
+```php
+/** @var CsvLine[] $regions */
+$regions = $retrivier->getRegions();
+```
+
+Get by some custom procedure
+
+```php
+/** @var CsvLine[] $lines */
+$retrivier->getBy(function($csvLines) {
+    /** @var CsvLine[] $regions */
+    $regions = array();
+
+    /** @var CsvLine $line */
+    foreach($csvLines as $line) {
+        if( !array_key_exists($line->codiceProvincia, $regions) ){
+            $regions[$line->codiceProvincia] = $line;
+        }
+    }
+
+    return $regions;
+}, 'string_used_as_key_if_you_want_to_push_to_cache_otherwise_not_pushed');
+```
 
 # Form Types
 
