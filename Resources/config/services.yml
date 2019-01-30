@@ -9,6 +9,9 @@ services:
         # if you need to do this, you can override this setting on individual services
         public: true
 
+    GGGGino\ItalyMunicipalityBundle\Command\:
+        resource: '../../Command/*'
+
     GGGGino\ItalyMunicipalityBundle\Service\:
         resource: '../../Service/*'
 
