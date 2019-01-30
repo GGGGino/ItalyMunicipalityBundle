@@ -9,6 +9,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Style\SymfonyStyle;
 
 /**
  * Class GetLineCommand
@@ -21,12 +22,19 @@ class GetLineCommand extends Command
      */
     private $istatRetrivier;
 
+    /**
+     * GetLineCommand constructor.
+     * @param IstatRetrivier $istatRetrivier
+     */
     public function __construct(IstatRetrivier $istatRetrivier)
     {
         parent::__construct();
         $this->istatRetrivier = $istatRetrivier;
     }
 
+    /**
+     * @inheritdoc
+     */
     protected function configure()
     {
         $this
@@ -37,8 +45,13 @@ class GetLineCommand extends Command
             ->setDescription('Get lines from a specifica keyword');
     }
 
+    /**
+     * @inheritdoc
+     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $io = new SymfonyStyle($input, $output);
+
         /** @var CsvLine $lines */
         $lines = array();
         $campo = null;
@@ -55,16 +68,28 @@ class GetLineCommand extends Command
             $campo = 'denominazione';
         }
 
-        $this->getLinesFiltered($output, $lines, $campo, $option);
+        $this->getLinesFiltered($io, $lines, $campo, $option);
     }
 
-    private function getLinesFiltered(OutputInterface $output, $lines, $campo, $option)
+    /**
+     * @param SymfonyStyle $io
+     * @param $lines
+     * @param $campo
+     * @param $option
+     */
+    private function getLinesFiltered(SymfonyStyle $io, $lines, $campo, $option)
     {
+        $bodyResults = array();
         /** @var CsvLine $province */
         foreach ($lines as $line) {
             if ( strpos(strtolower($line->{$campo}), $option) !== false ) {
-                $output->writeln($line->{$campo});
+                $bodyResults[] = array($line->{$campo});
             }
         }
+
+        $io->table(
+            [$campo],
+            $bodyResults
+        );
     }
 }
