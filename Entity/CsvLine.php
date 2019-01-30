@@ -43,10 +43,10 @@ class CsvLine
         if( empty($line[0]) && empty($line[1]) )
             throw new CsvLineNotValidException($line, "Csv line not valid");
 
-        $newSelf->codiceRegione = intval($line[0]);
-        $newSelf->codiceUnitaTerritoriale = intval($line[1]);
-        $newSelf->codiceProvincia = intval($line[2]);
-        $newSelf->progressivoDelComune = intval($line[3]);
+        $newSelf->codiceRegione = $line[0];
+        $newSelf->codiceUnitaTerritoriale = $line[1];
+        $newSelf->codiceProvincia = $line[2];
+        $newSelf->progressivoDelComune = $line[3];
         $newSelf->codiceComuneAlfaumerico = $line[4];
         $newSelf->denominazione = utf8_encode($line[5]);
         $newSelf->denominazioneIta = utf8_encode($line[6]);
@@ -57,10 +57,10 @@ class CsvLine
         $newSelf->denomUnitaTerritoriale = utf8_encode($line[11]);
         $newSelf->flagCapoluogo = $line[12];
         $newSelf->siglaAutomob = $line[13];
-        $newSelf->codiceComuneNum = intval($line[14]);
-        $newSelf->codiceComuneNum110 = intval($line[15]);
-        $newSelf->codiceComuneNum107 = intval($line[16]);
-        $newSelf->codiceComuneNum103 = intval($line[17]);
+        $newSelf->codiceComuneNum = $line[14];
+        $newSelf->codiceComuneNum110 = $line[15];
+        $newSelf->codiceComuneNum107 = $line[16];
+        $newSelf->codiceComuneNum103 = $line[17];
         $newSelf->codiceCatastale = $line[18];
         $newSelf->popolazioneLegale = $line[19];
         $newSelf->nuts1 = $line[20];
