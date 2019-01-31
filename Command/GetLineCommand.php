@@ -80,15 +80,22 @@ class GetLineCommand extends Command
     private function getLinesFiltered(SymfonyStyle $io, $lines, $campo, $option)
     {
         $bodyResults = array();
-        /** @var CsvLine $province */
+        /** @var CsvLine $line */
         foreach ($lines as $line) {
             if ( strpos(strtolower($line->{$campo}), $option) !== false ) {
-                $bodyResults[] = array($line->{$campo});
+                $bodyResults[] = array(
+                    $line->denomReg,
+                    $line->codiceRegione,
+                    $line->denomUnitaTerritoriale,
+                    $line->codiceUnitaTerritoriale,
+                    $line->denominazione,
+                    $line->codiceComuneAlfaumerico
+                );
             }
         }
 
         $io->table(
-            [$campo],
+            ['Region', 'Reg. code', 'Province', 'Prov. Code', 'Municip.', 'Municip. Code'],
             $bodyResults
         );
     }
