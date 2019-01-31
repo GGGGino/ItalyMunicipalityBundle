@@ -73,17 +73,17 @@ class IstatRetrivier
     public function getMunicipalities()
     {
         return $this->getBy(function($csvLines) {
-            /** @var CsvLine[] $regions */
-            $regions = array();
+            /** @var CsvLine[] $municipalities */
+            $municipalities = array();
 
             /** @var CsvLine $line */
             foreach($csvLines as $line) {
-                if( !array_key_exists($line->codiceComuneNum, $regions) ){
-                    $regions[$line->codiceComuneNum] = $line;
+                if( !array_key_exists($line->codiceComuneNum, $municipalities) ){
+                    $municipalities[$line->codiceComuneNum] = $line;
                 }
             }
 
-            return $regions;
+            return $municipalities;
         }, self::CACHE_MUNICIPALITIES_KEY);
     }
 
@@ -94,16 +94,16 @@ class IstatRetrivier
     {
         return $this->getBy(function($csvLines) {
             /** @var CsvLine[] $regions */
-            $regions = array();
+            $provinces = array();
 
             /** @var CsvLine $line */
             foreach($csvLines as $line) {
-                if( !array_key_exists($line->codiceProvincia, $regions) ){
-                    $regions[$line->codiceProvincia] = $line;
+                if( !array_key_exists($line->codiceProvincia, $provinces) ){
+                    $provinces[$line->codiceProvincia] = $line;
                 }
             }
 
-            return $regions;
+            return $provinces;
         }, self::CACHE_PROVINCES_KEY);
     }
 

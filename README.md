@@ -75,3 +75,4 @@ $formMapper
 | Name          | Description  |
 | ------------- |:------------:|
 | ggggino:italy_municipality:download | Command to download the list from ISTAT |
+| ggggino:italy_municipality:get_line | Dump the main information of the searched lines |
