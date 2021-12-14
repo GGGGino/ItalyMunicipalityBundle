@@ -50,7 +50,14 @@ class IstatPopulator
     {
         $request = new Request("GET", self::ISTAT_COMUNI_);
         /** @var ResponseInterface $response */
-        $response = $this->client->sendRequest($request);
+        try
+        {
+            $response = $this->client->sendRequest($request);
+        }
+        catch(\Throwable $e)
+        {
+            $response = new \GuzzleHttp\Psr7\Response(200,[],file_get_contents(__DIR__.'/../Elenco-comuni-italiani.csv'));
+        }
 
         $first = true;
         if( $response->getStatusCode() == 200 ) {
