@@ -35,6 +35,7 @@ class DownloadCommand extends Command
     {
         $lines = $this->istatPopulator->getLines();
 
-        $output->writeln("Trovati " . count($lines) . "comuni");
+        $output->writeln("Trovati " . count($lines) . " comuni");
+        return 0;
     }
 }

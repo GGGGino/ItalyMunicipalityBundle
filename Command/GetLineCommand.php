@@ -69,6 +69,8 @@ class GetLineCommand extends Command
         }
 
         $this->getLinesFiltered($io, $lines, $campo, $option);
+
+        return 0;
     }
 
     /**
