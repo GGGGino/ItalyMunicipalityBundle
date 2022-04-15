@@ -5,10 +5,8 @@ namespace GGGGino\ItalyMunicipalityBundle\Service;
 use GGGGino\ItalyMunicipalityBundle\Entity\CsvLine;
 use GGGGino\ItalyMunicipalityBundle\Exception\CsvLineNotValidException;
 use GGGGino\ItalyMunicipalityBundle\Exception\CsvLinesUnavailableException;
-use GuzzleHttp\Psr7\Request;
-use Psr\Http\Client\ClientInterface;
-use Psr\Http\Message\ResponseInterface;
 use Symfony\Component\Cache\Adapter\AdapterInterface;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 /**
  * Class used to retrieve from cache/CDN all the municipalities
@@ -37,7 +35,7 @@ class IstatPopulator
      */
     private $client;
 
-    public function __construct(AdapterInterface $cache, ClientInterface $client)
+    public function __construct(AdapterInterface $cache, HttpClientInterface $client)
     {
         $this->cache = $cache;
         $this->client = $client;
@@ -48,38 +46,37 @@ class IstatPopulator
      */
     public function download()
     {
-        $request = new Request("GET", self::ISTAT_COMUNI_);
-        /** @var ResponseInterface $response */
-        try
+        $response = $this->client->request(
+            'GET',
+            self::ISTAT_COMUNI_
+        );
+        if( $response->getStatusCode() == 200 )
         {
-            $response = $this->client->sendRequest($request);
-        }
-        catch(\Throwable $e)
-        {
-            $response = new \GuzzleHttp\Psr7\Response(200,[],file_get_contents(__DIR__.'/../Elenco-comuni-italiani.csv'));
-        }
-
-        $first = true;
-        if( $response->getStatusCode() == 200 ) {
             /** @var string $responseContent */
-            $responseContent = $response->getBody()->getContents();
+            $responseContent = $response->getContent();
             $arrayLines = str_getcsv($responseContent, "\r\n"); //parse the rows
-            foreach($arrayLines as &$data){
-                $data = str_getcsv($data, ";");
+        }
+        else
+        {
+            $fallback = file_get_contents(__DIR__.'/../Elenco-comuni-italiani.csv');
+            $arrayLines = str_getcsv($fallback, "\r\n");
+        }
 
-                if( $first ){
-                    $first = false;
-                    continue;
-                }
+        //parse the rows
+        $first = true;
+        foreach($arrayLines as &$data){
+            $data = str_getcsv($data, ";");
 
-                try{
-                    $this->csvLines[] = CsvLine::createCsvLine($data);
-                }catch(CsvLineNotValidException $e) {
-                    continue;
-                }
+            if( $first ){
+                $first = false;
+                continue;
             }
-        }else{
-            throw new CsvLinesUnavailableException();
+
+            try{
+                $this->csvLines[] = CsvLine::createCsvLine($data);
+            }catch(CsvLineNotValidException $e) {
+                continue;
+            }
         }
     }
 

@@ -6,6 +6,27 @@
 
 > The content of the ISTAT file will be saved in cache
 
+Installation as package
+-----------------------
+
+1. add local repository in `composer.json`
+
+```json
+"repositories": [
+        {
+            "type": "vcs",
+            "url": "git@github.com:kikwik/ItalyMunicipalityBundle.git"
+        }
+    ],
+```  
+
+2. require the bundle
+
+```console
+#!/bin/bash
+composer require ggggino/italy-municipality  
+```
+
 # Get started
 
 Get the service
